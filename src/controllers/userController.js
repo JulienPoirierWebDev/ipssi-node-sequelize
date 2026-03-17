@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
+const jwt = require('jsonwebtoken');
 
 const register = async (request, response) => {
   const { email, password, username } = request.body;
@@ -53,7 +54,19 @@ const signin = async (request, response) => {
     );
 
     if (isAuthenticated) {
-      response.json({ message: "Mais c'est vous !" });
+      const token = jwt.sign(
+        {
+          exp: Math.floor(Date.now() / 1000) + 60 * 60,
+          role: userExist.role,
+        },
+        process.env.JWT_SECRET,
+      );
+      response.json({
+        message: "Mais c'est vous !",
+        data: {
+          token,
+        },
+      });
     } else {
       response.json({
         message: "Il y a un problème avec l'email / le password",
