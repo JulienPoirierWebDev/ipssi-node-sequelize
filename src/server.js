@@ -1,34 +1,32 @@
-require('dotenv').config()
-const express = require('express')
-const {connectionToDB} = require("./db")
-const charactersRouter = require('./routers/characterRouter')
+require('dotenv').config();
+const express = require('express');
+const { connectionToDB } = require('./db');
+const charactersRouter = require('./routers/characterRouter');
+const userRouter = require('./routers/userRouter');
 
-const app = express()
+const app = express();
 // Pouvoir lire les body des requêtes en JSON
-app.use(express.json())
+app.use(express.json());
 // Accepter les formulaires HTML
 app.use(
-    express.urlencoded({
-        extended: true
-    })
+  express.urlencoded({
+    extended: true,
+  }),
 );
-const port = process.env.PORT
+const port = process.env.PORT;
 
-connectionToDB()
+connectionToDB();
 
-
-app.use("/characters", charactersRouter)
+app.use('/characters', charactersRouter);
+app.use('/users', userRouter);
 
 app.get('/', async (req, res) => {
-
-  res.send('Hello World!')
-
-})
+  res.send('Hello World!');
+});
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
-
+  console.log(`Example app listening on port ${port}`);
+});
 
 /*
   Character.create({name:"Mario", description:"Un plombier"})
