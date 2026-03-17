@@ -60,7 +60,7 @@ const getOneCharacterById  = async (request, response) => {
 
 
   try {
-    const character = Character.findByPk(id)
+    const character = await Character.findByPk(id)
 
     if(!character) {
       return response.status(404).json({message: "Il n'y a pas de personnage avec cet ID", error:true})
@@ -82,16 +82,17 @@ const updateOneCharacterById = async (request, response) => {
 
     const {description} = request.body;
     try {
-      const character = Character.findByPk(id)
+      const character = await Character.findByPk(id)
 
       if(!character) {
         return response.status(404).json({message: "Il n'y a pas de personnage avec cet ID", error:true})
       }
 
-      const modifiedCharacter = await Character.updateOneCharacterById({ description });
-
-      response.status(201).json({message:"Personnage modifié avec succès", result: modifiedCharacter})
+      character.description = description;
+      character.save();
+      response.status(201).json({message:"Personnage modifié avec succès", result: character})
       } catch (error) {
+        console.log(error)
         response.status(500).json({message:"Erreur du server", error:true})
       }
 }

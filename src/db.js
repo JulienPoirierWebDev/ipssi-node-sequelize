@@ -1,6 +1,8 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize("mysql://root@localhost:3306/sequelize_characters")
+const DB_url = process.env.ENV === "DEV" ? process.env.DB_DEV : process.env.DB_PROD
+
+const sequelize = new Sequelize(DB_url)
 
 
 
