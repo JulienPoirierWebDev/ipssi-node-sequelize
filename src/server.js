@@ -1,26 +1,28 @@
 require('dotenv').config()
 const express = require('express')
 const {connectionToDB} = require("./db")
-const Character = require('./models/characterModel')
+const charactersRouter = require('./routers/characterRouter')
 
 const app = express()
+// Pouvoir lire les body des requêtes en JSON
+app.use(express.json())
+// Accepter les formulaires HTML
+app.use(
+    express.urlencoded({
+        extended: true
+    })
+);
 const port = process.env.PORT
 
 connectionToDB()
 
 
+app.use("/characters", charactersRouter)
+
 app.get('/', async (req, res) => {
 
-try {
-    const newCharacter = await Character.create({name:"Mario", description:"Un plombier"})
   res.send('Hello World!')
 
-} catch (error) {
-  console.log(error);
-
-  res.json({message:error.errors[0].message, error :true})
-
-}
 })
 
 app.listen(port, () => {
