@@ -89,6 +89,7 @@ const updateOneCharacterById = async (request, response) => {
       }
 
       character.description = description;
+      character.updatedAt = Date.now()
       character.save();
       response.status(201).json({message:"Personnage modifié avec succès", result: character})
       } catch (error) {
@@ -106,7 +107,7 @@ const deleteOneCharacterById = async (request, response) => {
 
 
   try {
-    const character = Character.findByPk(id)
+    const character = await Character.findByPk(id)
 
     if(!character) {
       return response.status(404).json({message: "Il n'y a pas de personnage avec cet ID", error:true})
