@@ -4,6 +4,10 @@ const { connectionToDB } = require('./db');
 const charactersRouter = require('./routers/characterRouter');
 const userRouter = require('./routers/userRouter');
 
+const verifyTokenJwt = require('./middlewares/verifyTokenJwt');
+const isAdmin = require('./middlewares/isAdmin');
+const cookieParser = require('cookie-parser');
+
 const app = express();
 // Pouvoir lire les body des requêtes en JSON
 app.use(express.json());
@@ -13,15 +17,45 @@ app.use(
     extended: true,
   }),
 );
+
+app.use(cookieParser());
+
 const port = process.env.PORT;
 
 connectionToDB();
 
-app.use('/characters', charactersRouter);
+// middleware 1 -> middleware2 -> middleware 3 -> controller
+app.use((req, res, next) => {
+  console.log('je suis un middleware');
+
+  console.log(req.cookies);
+  next();
+});
+
+app.use(
+  '/characters',
+  (req, res, next) => {
+    console.log('Je suis un middleware de router');
+    next();
+  },
+  charactersRouter,
+);
 app.use('/users', userRouter);
 
-app.get('/', async (req, res) => {
-  res.send('Hello World!');
+app.get(
+  '/',
+  (req, res, next) => {
+    console.log('Je suis un middleware de route racine');
+    next();
+  },
+  async (req, res) => {
+    res.send('Hello World!');
+  },
+);
+
+app.get('/protected', verifyTokenJwt, isAdmin, (req, res) => {
+  console.log('Aije quelque chose ? ', req.user);
+  res.json({ message: 'Je suis protégé, non ?' });
 });
 
 app.listen(port, () => {

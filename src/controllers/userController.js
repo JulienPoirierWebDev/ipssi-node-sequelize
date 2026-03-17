@@ -58,9 +58,18 @@ const signin = async (request, response) => {
         {
           exp: Math.floor(Date.now() / 1000) + 60 * 60,
           role: userExist.role,
+          id: userExist.id,
         },
         process.env.JWT_SECRET,
       );
+      response.cookie('access_token', token, {
+        httpOnly: true,
+        secure: process.env.ENV === 'PROD',
+        sameSite: process.env.ENV === 'PROD' ? 'none' : 'lax',
+        maxAge: 60 * 60 * 1000,
+        path: '/',
+      });
+
       response.json({
         message: "Mais c'est vous !",
         data: {
