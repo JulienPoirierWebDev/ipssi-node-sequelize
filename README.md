@@ -1,0 +1,1 @@
+# ipssi-node-sequelize
