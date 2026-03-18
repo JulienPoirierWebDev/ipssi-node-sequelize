@@ -72,9 +72,6 @@ const signin = async (request, response) => {
 
       response.json({
         message: "Mais c'est vous !",
-        data: {
-          token,
-        },
       });
     } else {
       response.json({
