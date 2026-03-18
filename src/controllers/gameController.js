@@ -1,4 +1,5 @@
 const Game = require('../models/gameModel');
+const Character = require('../models/characterModel');
 
 const createOneGame = async (request, response) => {
   // Vérifier les données + logique métier
@@ -48,11 +49,14 @@ const getAllGames = async (request, response) => {
 };
 const getOneGameById = async (request, response) => {
   const id = request.params.id;
+  console.log(request.query);
 
+  const allCharacters = request.query.allCharacters;
   // Verif si c'est un nombre ou non, etc.
 
   try {
-    const game = await Game.findByPk(id);
+    const options = allCharacters ? { include: Character } : {};
+    const game = await Game.findByPk(id, options);
 
     if (!game) {
       response.status(404).json({
