@@ -35,6 +35,11 @@ const register = async (request, response) => {
 
 const deleteUser = (request, response) => {};
 
+const deleteCookie = (request, response) => {
+  response.clearCookie('access_token');
+  response.json({ message: 'Vous êtes deconnecté' });
+};
+
 const signin = async (request, response) => {
   const { email, password } = request.body;
 
@@ -86,4 +91,4 @@ const signin = async (request, response) => {
   }
 };
 
-module.exports = { register, deleteUser, signin };
+module.exports = { register, deleteUser, signin, deleteCookie };

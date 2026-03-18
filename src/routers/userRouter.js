@@ -3,6 +3,7 @@ const {
   register,
   deleteUser,
   signin,
+  deleteCookie,
 } = require('../controllers/userController');
 // inscrire un utilisateur : Create -> Register
 
@@ -17,6 +18,8 @@ const {
 const userRouter = express.Router();
 
 userRouter.post('/register', register);
+
+userRouter.get('/logout', deleteCookie);
 
 //userRouter.patch('/:id', () => {});
 

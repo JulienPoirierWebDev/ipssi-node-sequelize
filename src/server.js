@@ -7,6 +7,8 @@ const userRouter = require('./routers/userRouter');
 const verifyTokenJwt = require('./middlewares/verifyTokenJwt');
 const isAdmin = require('./middlewares/isAdmin');
 const cookieParser = require('cookie-parser');
+const gameRouter = require('./routers/gameRouter');
+const gameCharacterRouter = require('./routers/gameCharacterRouter');
 
 const app = express();
 // Pouvoir lire les body des requêtes en JSON
@@ -41,6 +43,8 @@ app.use(
   charactersRouter,
 );
 app.use('/users', userRouter);
+app.use('/games', gameRouter);
+app.use('/', gameCharacterRouter);
 
 app.get(
   '/',

@@ -1,16 +1,16 @@
 const express = require("express");
 const { createOneCharacter, getAllCharacter, getOneCharacterById, updateOneCharacterById, deleteOneCharacterById } = require("../controllers/characterController");
 
-const charactersRouter = express.Router();
+const characterRouter = express.Router();
 
-charactersRouter.post("/", createOneCharacter)
+characterRouter.post("/", createOneCharacter)
 
-charactersRouter.get("/", getAllCharacter)
+characterRouter.get("/", getAllCharacter)
 
-charactersRouter.get("/:id", getOneCharacterById)
+characterRouter.get("/:id", getOneCharacterById)
 
-charactersRouter.patch("/:id", updateOneCharacterById)
+characterRouter.patch("/:id", updateOneCharacterById)
 
-charactersRouter.delete("/:id", deleteOneCharacterById)
+characterRouter.delete("/:id", deleteOneCharacterById)
 
-module.exports = charactersRouter;
+module.exports = characterRouter;

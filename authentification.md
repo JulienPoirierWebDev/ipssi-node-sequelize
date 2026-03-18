@@ -392,3 +392,4 @@ Dans ce repo, la base est deja la :
 - `isAdmin` pour restreindre l'acces selon le role
 
 La prochaine evolution logique serait de rendre `verifyTokenJwt` compatible header + cookie, puis d'ajouter un `logout`.
+

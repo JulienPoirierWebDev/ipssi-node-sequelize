@@ -1,24 +1,28 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../db');
-const Game = require('./gameModel');
 
-const Character = sequelize.define('Character', {
+const Game = sequelize.define('Game', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  description: {
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  releaseYear: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  platform: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  name: {
+  description: {
     type: DataTypes.STRING,
-    unique: true,
     allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -32,7 +36,4 @@ const Character = sequelize.define('Character', {
   },
 });
 
-Character.belongsToMany(Game, { through: 'CharacterGame' });
-Game.belongsToMany(Character, { through: 'CharacterGame' });
-
-module.exports = Character;
+module.exports = Game;
